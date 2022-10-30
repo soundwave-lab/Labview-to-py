@@ -1,9 +1,12 @@
+//配列定義
 var input=new Array(17);
 
+//指定した保存先・ファイル名表示
 document.getElementById('selectFile').addEventListener('click',async()=>{
    document.getElementById('selectFile').innerText=await eel.selectFile()();
 });
  
+//変数をJSからPythonへ
 document.getElementById('start').addEventListener('click',async()=>{
          input[0]=document.querySelector('[name="lowSpeed"]').value
          input[1]=document.querySelector('[name="highSpeed"]').value
