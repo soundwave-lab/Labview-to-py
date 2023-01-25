@@ -36,7 +36,7 @@ class Oscilloscope:
 
     def average(self, count):  # averaging数指定
         return self._scope.write(f':ACQ:MOD AVE;:ACQ:NUMAV {count};')
-    
+
     def sample(self):
         return self._scope.write('ACQ:MOD SAM')
 
