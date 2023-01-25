@@ -17,37 +17,30 @@
 <body class="bg-light text-dark">
 <main>
 <div class="save border border-secondary rounded"><p>Save File</p>
-<button class="form-control btn btn-outline-secondary" id="selectFile"></button>
+<button class="form-control btn btn-outline-secondary" id="selectFile" style="text-overflow: ellipsis;"></button>
 </div>
 <div class="3dstage">
 	<div class="speed border border-secondary rounded">
 	<div class="collum">
-	<div id=lowSpeed><p>Low Speed(pps)</p><div class="tooltip3"><input class="form-control" name="lowSpeed" type="number" min="1" max="500000"><div class="collapse" id="collapse"><div class="description3">説明を入力してください。</div></div></div>(1-500000)</div>
+	<div id=lowSpeed><p>Measure Move Speed(pps)</p><div class="tooltip3"><input class="form-control" name="lowSpeed" type="number" min="1" max="500000"><div class="collapse" id="collapse"><div class="description3">次の測定点までのヘッドの速さを入力してください。</div></div></div>(1-500000)</div>
 	<br>
-	<div id=highSpeed><p>High Speed(pps)</p><div class="tooltip3"><input class="form-control" name="highSpeed" type="number" min="1" max="500000"><div class="collapse" id="collapse"><div class="description3">説明を入力してください。</div></div></div>(1-500000)</div>
+	<div id=highSpeed><p>Return Speed(pps)</p><div class="tooltip3"><input class="form-control" name="highSpeed" type="number" min="1" max="500000"><div class="collapse" id="collapse"><div class="description3">ヘッドが戻る速さを入力してください。</div></div></div>(1-500000)</div>
 	</div>
 	<div class="collum">
-	<div id="3dgpib"><p>GBIB Address</p><div class="tooltip3"><input class="form-control" name="3dgpib" type="number" value="8" min="8" max="11"><div class="collapse" id="collapse"><div class="description3">説明を入力してください。</div></div></div>(8-11)</div>
+	<div id="3dgpib"><p>GPIB Address</p><div class="tooltip3"><input class="form-control" name="3dgpib" type="number" value="8" min="8" max="11"><div class="collapse" id="collapse"><div class="description3">3DステージのGPIBアドレスを入力してください。</div></div></div>(8-11)</div>
 	<br>
 	<div id="setAxis"><p>Set Axis</p>
-	<div class="tooltip3"><select id="set1stAxis" name="set1stAxis" onchange="check_axis()">
-    <option value="1" selected>x</option>
-    <option value="2">y</option>
-    <option value="3">z</option>
-    </select>
-    <select id="set2ndAxis" name="set2ndAxis" onchange="check_axis()">
-    <option value="1">x</option>
-    <option value="2" selected>y</option>
-    <option value="3">z</option>
-    </select>
-    <select id="set3rdAxis" name="set3rdAxis" onchange="check_axis()">
-    <option value="1">x</option>
-    <option value="2">y</option>
-    <option value="3" selected>z</option>
-</select><div class="collapse" id="collapse"><div class="description3">説明を入力してください。</div></div></div></div>
+	<div class="tooltip3"><select name="setAxis">
+  <option value="x-y-z" selected>x-y-z</option>
+  <option value="x-z-y">x-z-y</option>
+  <option value="y-x-z">y-x-z</option>
+  <option value="y-z-x">y-z-x</option>
+  <option value="z-x-y">z-x-y</option>
+  <option value="z-y-x">z-y-x</option>
+</select><div class="collapse" id="collapse"><div class="description3">測定軸の設定をします。</div></div></div></div>
 	</div>
 	<div class="collum">
-	<div id="intervalTime"><p>Interval Time(ms)</p><div class="tooltip3"><input class="form-control" name="intervalTime" type="number"><div class="collapse" id="collapse"><div class="description3">説明を入力してください。</div></div></div></div>
+	<div id="intervalTime"><p>Interval Time(ms)</p><div class="tooltip3"><input class="form-control" name="intervalTime" type="number"><div class="collapse" id="collapse"><div class="description3">ヘッドが測定点にとどまる時間を入力してください。</div></div></div></div>
 	</div>
 	<br><br>
 	<div class="buttons">
@@ -66,16 +59,16 @@ Detail Setting
 	</div>
 	<div class="axises">
 	<div class="axis border border-secondary rounded" id=1stAxis><div class="top_axis border border-secondary rounded">1stAxis</div><p>Pulse Number</p>
-	<div class="tooltip3"><input class="form-control" name="1stAxisPulse" type="number" min="0" max="16777214"><div class="collapse" id="collapse"><div class="description3">説明を入力してください。</div></div></div>(0-16777214)<br><br>
-	<p>Number of Measurement Point</p><div class="measureValue"><div class="tooltip3"><input class="form-control" name="1stAxisPoint" type="number" min="0"><div class="collapse" id="collapse"><div class="description3">説明を入力してください。</div></div></div>
+	<div class="tooltip3"><input class="form-control" name="1stAxisPulse" type="number" min="0" max="16777214"><div class="collapse" id="collapse"><div class="description3">測定間隔を入力してください。</div></div></div>(0-16777214)<br><br>
+	<p>Number of Measurement Point</p><div class="measureValue"><div class="tooltip3"><input class="form-control" name="1stAxisPoint" type="number" min="0"><div class="collapse" id="collapse"><div class="description3">測定点数を入力してください。</div></div></div>
 	<div class="form-control" id="1stAxisCPoint" type="number" readonly>current pos.</div></div></div>
 	<div class="axis border border-secondary rounded" id="2ndAxis"><div class="top_axis border border-secondary rounded">2ndAxis</div><p>Pulse Number</p>
-	<div class="tooltip3"><input class="form-control col-xs-2" name="2ndAxisPulse" type="number" min="0" max="16777214"><div class="collapse" id="collapse"><div class="description3">説明を入力してください。</div></div></div>(0-16777214)<br><br>
-	<p>Number of Measurement Point</p><div class="measureValue"><div class="tooltip3"><input class="form-control" name="2ndAxisPoint" type="number" min="0"><div class="collapse" id="collapse"><div class="description3">説明を入力してください。</div></div></div>
+	<div class="tooltip3"><input class="form-control col-xs-2" name="2ndAxisPulse" type="number" min="0" max="16777214"><div class="collapse" id="collapse"><div class="description3">測定間隔を入力してください。</div></div></div>(0-16777214)<br><br>
+	<p>Number of Measurement Point</p><div class="measureValue"><div class="tooltip3"><input class="form-control" name="2ndAxisPoint" type="number" min="0"><div class="collapse" id="collapse"><div class="description3">測定点数を入力してください。</div></div></div>
 	<div class="form-control" id="2ndAxisCPoint" type="number" readonly>current pos.</div></div></div>
 	<div class="axis border border-secondary rounded" id="3rdAxis"><div class="top_axis border border-secondary rounded">3rdAxis</div><p>Pulse Number</p>
-	<div class="tooltip3"><input class="form-control col-xs-2" name="3rdAxisPulse" type="number" min="0" max="16777214"><div class="collapse" id="collapse"><div class="description3">説明を入力してください。</div></div></div>(0-16777214)<br><br>
-	<p>Number of Measurement Point</p><div class="measureValue"><div class="tooltip3"><input class="form-control" name="3rdAxisPoint" type="number" min="0"><div class="collapse" id="collapse"><div class="description3">説明を入力してください。</div></div></div>
+	<div class="tooltip3"><input class="form-control col-xs-2" name="3rdAxisPulse" type="number" min="0" max="16777214"><div class="collapse" id="collapse"><div class="description3">測定間隔を入力してください。</div></div></div>(0-16777214)<br><br>
+	<p>Number of Measurement Point</p><div class="measureValue"><div class="tooltip3"><input class="form-control" name="3rdAxisPoint" type="number" min="0"><div class="collapse" id="collapse"><div class="description3">測定点数を入力してください。</div></div></div>
 	<div class="form-control" id="3rdAxisCPoint" type="number" readonly>current pos.</div></div></div>
 	</div>
 </div>
@@ -85,30 +78,30 @@ Detail Setting
   <option value= 1 selected>Measure1</option>
   <option value="measure2">Measure2</option>
   <option value="measure3">Measure3</option>
-  <option value="measure4">Measure4</option></select><div class="collapse" id="collapse"><div class="description3">説明を入力してください。</div></div></div>
+  <option value="measure4">Measure4</option></select><div class="collapse" id="collapse"><div class="description3">取得したいオシロスコープのMeasureを入力してください。</div></div></div>
 <p>Measurement2</p>
 <div class="tooltip3"><select class="form-control" name="measure2">
   <option value="None">None</option>
   <option value="measure1">Measure1</option>
   <option value="measure2">Measure2</option>
   <option value="measure3">Measure3</option>
-  <option value="measure4">Measure4</option></select><div class="collapse" id="collapse"><div class="description3">説明を入力してください。</div></div></div>
+  <option value="measure4">Measure4</option></select><div class="collapse" id="collapse"><div class="description3">取得したいオシロスコープのMeasureを入力してください。</div></div></div>
 <p>Measurement3</p>
 <div class="tooltip3"><select class="form-control" name="measure3">
   <option value="None">None</option>
   <option value="measure1">Measure1</option>
   <option value="measure2">Measure2</option>
   <option value="measure3">Measure3</option>
-  <option value="measure4">Measure4</option></select><div class="collapse" id="collapse"><div class="description3">説明を入力してください。</div></div></div>
+  <option value="measure4">Measure4</option></select><div class="collapse" id="collapse"><div class="description3">取得したいオシロスコープのMeasureを入力してください。</div></div></div>
 <p>Measurement4</p>
 <div class="tooltip3"><select class="form-control" name="measure4">
   <option value="None">None</option>
   <option value="measure1">Measure1</option>
   <option value="measure2">Measure2</option>
   <option value="measure3">Measure3</option>
-  <option value="measure4">Measure4</option></select><div class="collapse" id="collapse"><div class="description3">説明を入力してください。</div></div></div>
+  <option value="measure4">Measure4</option></select><div class="collapse" id="collapse"><div class="description3">取得したいオシロスコープのMeasureを入力してください。</div></div></div>
 <p>GPIB Address</p>
-<div class="tooltip3"><input class="form-control" name="oscilogpib" type="number" value="1" min="0" max="30"><div class="collapse" id="collapse"><div class="description3">説明を入力してください。</div></div></div>(0-30)
+<div class="tooltip3"><input class="form-control" name="oscilogpib" type="number" value="1" min="0" max="30"><div class="collapse" id="collapse"><div class="description3">オシロスコープのGPIBアドレスを入力してください。</div></div></div>(0-30)
 </div>
 
 <!-- Modal -->
