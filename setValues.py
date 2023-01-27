@@ -6,9 +6,8 @@ import tkinter.filedialog as filedialog
 setValues = {"lowSpeed": "", "highSpeed": "", "3dgpib": "", "setAxis": "", "intervalTime": "", "1stAxisPulse": "", "2ndAxisPulse": "", "3rdAxisPulse": "",
              "1stAxisPoint": "", "2ndAxisPoint": "", "3rdAxisPoint": "", "measure1": "", "measure2": "", "measure3": "", "measure4": "", "oscillogpib": ""}
 
+
 # 新規ファイルの保存場所指定
-
-
 @eel.expose
 def selectFile():
     # print("Here") #動いてるか確認用
@@ -18,9 +17,8 @@ def selectFile():
     file_path = tkinter.filedialog.asksaveasfilename(defaultextension="csv")
     return file_path
 
+
 # HTMLのフォームの値をPythonの変数へ
-
-
 @eel.expose
 def send_data(arg=[]):
     n = 0
@@ -28,3 +26,6 @@ def send_data(arg=[]):
         setValues[i] = arg[n]
         n = n+1
     print(setValues)  # 確認用
+    
+    #現在位置の出力
+    eel.change_current_point(1,5)

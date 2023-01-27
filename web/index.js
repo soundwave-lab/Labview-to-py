@@ -26,3 +26,19 @@ document.getElementById('start').addEventListener('click',async()=>{
          input[15]=document.querySelector('[name="oscilogpib"]').value
    await eel.send_data(input);
 });
+
+eel.expose(change_current_point)
+function change_current_point(axis,point){
+   if(axis==1){
+   document.getElementById('1stAxisCPoint').innerText=point;
+   }
+   else if(axis==2){
+   document.getElementById('2ndAxisCPoint').innerText=point;
+   }
+   else if(axis==3){
+   document.getElementById('3rdAxisCPoint').innerText=point;
+   }
+   else{
+   console.log("no set")
+   }
+}
