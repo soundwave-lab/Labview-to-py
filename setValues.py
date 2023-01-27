@@ -99,3 +99,11 @@ def send_data(arg=[]):
 def stop():
     stop_value=1
     print(stop_value)
+   
+    rm = pyvisa.ResourceManager()
+    # PCに接続された機器のVISAリソース名の取得
+    visa_list = rm.list_resources()
+
+    # 機器接続
+    stage = device.StageController(visa_list[int(setValues["3dgpib"])])  # 三軸の接続先指定
+    scope = device.Oscilloscope(visa_list[int(setValues["oscillogpib"])])  # オシロスコープの接続先指定
