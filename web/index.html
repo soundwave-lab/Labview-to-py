@@ -29,13 +29,21 @@
 	<div class="collum">
 	<div id="3dgpib"><p>GBIB Address</p><input class="form-control" name="3dgpib" type="number" value="8" min="8" max="11">(8-11)</div>
 	<br>
-	<div id=setAxis><p>Set Axis</p><select name="setAxis">
-  <option value="x-y-z" selected>x-y-z</option>
-  <option value="x-z-y">x-z-y</option>
-  <option value="y-x-z">y-x-z</option>
-  <option value="y-z-x">y-z-x</option>
-  <option value="z-x-y">y-x-y</option>
-  <option value="z-y-x">z-y-x</option>
+	<div id="setAxis"><p>Set Axis</p>
+	<select id="set1stAxis" name="set1stAxis" onchange="check_axis()">
+    <option value="1" selected>x</option>
+    <option value="2">y</option>
+    <option value="3">z</option>
+    </select>
+    <select id="set2ndAxis" name="set2ndAxis" onchange="check_axis()">
+    <option value="1">x</option>
+    <option value="2" selected>y</option>
+    <option value="3">z</option>
+    </select>
+    <select id="set3rdAxis" name="set3rdAxis" onchange="check_axis()">
+    <option value="1">x</option>
+    <option value="2">y</option>
+    <option value="3" selected>z</option>
 </select></div>
 	</div>
 	<div class="collum">

@@ -13,11 +13,7 @@ import tkinter.filedialog as filedialog
 
 eel.init('web')
 
+#eel.start('index.html')
+
+#開発用
 eel.start('index.html',mode=False,port=8080,host='localhost')
-
-#rm = pyvisa.ResourceManager()
-# PCに接続された機器のVISAリソース名の取得
-#visa_list = rm.list_resources()
-
-# 機器接続
-#scope = device.Oscilloscope(visa_list[setValues["oscillogpib"]])  # オシロスコープの接続先指定

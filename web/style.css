@@ -1,9 +1,9 @@
 .save{
 	border : solid 1px #333;
-	margin-right:30px;
+	margin-right:20px;
 	margin-left:20px;
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 	padding:10px 10px 30px 10px;
 	width:500px;
 }
@@ -57,6 +57,9 @@
 	float:left;
 	border : solid 1px #333;
 	margin-right:20px;
+	margin-left:20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 	padding:5px 10px 5px 10px;
 	width:200px;
 }
