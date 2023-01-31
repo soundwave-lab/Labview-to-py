@@ -34,7 +34,6 @@ scope = device.Oscilloscope(visa_list[1])#オシロスコープの接続先指�
 
 # In[4]:
 
-
 stage.move_one(2,-200*50)#2500パルス１cms
 time.sleep(1)
 stage.move_one(2,200*50)#2500パルス１㎝
