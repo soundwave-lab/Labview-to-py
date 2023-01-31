@@ -44,6 +44,7 @@ def send_data(arg=[]):
     stage = device.StageController(visa_list[int(setValues["3dgpib"])])#三軸の接続先設定
     scope = device.Oscilloscope(visa_list[int(setValues["oscillogpib"])])#オシロスコープの接続先指定
 
+<<<<<<< HEAD
     order = [int(setValues["set1stAxis"]),int(setValues["set2ndAxis"]),int(setValues["set3rdAxis"])]
     PulseNums = [int(setValues["1stAxisPulse"]),int(setValues["2ndAxisPulse"]),int(setValues["3rdAxisPulse"])]
     first_move = np.zeros(4)
@@ -55,10 +56,17 @@ def send_data(arg=[]):
     data = np.zeros(((int(setValues["1stAxisPoint"]) + 1)*(int(setValues["2ndAxisPoint"]) + 1)*(int(setValues["3rdAxisPoint"]) + 1),7))
     print(data.shape)
    
+=======
+    order = [int(setValues["set1staxis"]),int(setValues["set2ndaxis"]),int(setValues["set3rdaxis"])]
+    data = np.zeros((int(setValues["1stAxisPoint"]) + 1,int(setValues["2ndAxisPoint"]) + 1,int(setValues["3rdAxisPoint"]) + 1))
+
+    PulseNums = [int(setValues["1stAxisPulse"]),int(setValues["2ndAxisPulse"]),int(setValues["3rdAxisPulse"])]
+>>>>>>> 2b623c2 (stage_code1)
 
     stage_range1 = np.array(range(0,int(setValues["1stAxisPulse"])*int(setValues["1stAxisPoint"]) + int(setValues["1stAxisPoint"]),int(setValues["1stAxisPulse"])))
     stage_range2 = np.array(range(0,int(setValues["2ndAxisPulse"])*int(setValues["2ndAxisPoint"]) + int(setValues["2ndAxisPoint"]),int(setValues["2ndAxisPulse"])))
     stage_range3 = np.array(range(0,int(setValues["3rdAxisPulse"])*int(setValues["3rdAxisPoint"]) + int(setValues["3rdAxisPoint"]),int(setValues["3rdAxisPulse"])))
+<<<<<<< HEAD
     
     
     ch = int(1)  # 仮置き
@@ -84,6 +92,19 @@ def send_data(arg=[]):
 
     np.savetxt(filepath(),delimiter=',')
 
+=======
+    stage_range = np.concatenate(stage_range1,stage_range2,stage_range3,axis=0)
+
+    print(stage_range[0])
+    
+
+    # stage.move_to_abs(-int("1stAxisPulse")*int("1stAxisPoint")/2,-int("2ndAxisPulse")*int("2ndAxisPoint")/2,0,0)
+
+    # for k in stage_range3:
+    #     for j in stage_range2:
+    #         for i in stage_range1:
+    #             data[
+>>>>>>> 2b623c2 (stage_code1)
     #測定のループの中に入れる
     #if stop==0:
         #そのまま測定
