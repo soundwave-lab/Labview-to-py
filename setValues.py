@@ -10,12 +10,13 @@ import pandas as pd
 import math
 
 # 辞書定義
-setValues = {"lowSpeed": "", "highSpeed": "", "3dgpib": "", "setAxis": "", "intervalTime": "", "1stAxisPulse": "", "2ndAxisPulse": "", "3rdAxisPulse": "",
+setValues = {"lowSpeed": "", "highSpeed": "", "3dgpib": "", "set1stAxis": "","set2ndAxis": "","set3rdAxis": "", "intervalTime": "", "1stAxisPulse": "", "2ndAxisPulse": "", "3rdAxisPulse": "",
              "1stAxisPoint": "", "2ndAxisPoint": "", "3rdAxisPoint": "", "measure1": "", "measure2": "", "measure3": "", "measure4": "", "oscillogpib": ""}
 
+#stop_value=1の時ストップ
+stop_value=0
+
 # 新規ファイルの保存場所指定
-
-
 @eel.expose
 def selectFile():
     # print("Here") #動いてるか確認用
@@ -25,9 +26,8 @@ def selectFile():
     file_path = tkinter.filedialog.asksaveasfilename(defaultextension="csv")
     return file_path
 
+
 # HTMLのフォームの値をPythonの変数へ
-
-
 @eel.expose
 def send_data(arg=[]):
     n = 0
@@ -35,12 +35,20 @@ def send_data(arg=[]):
         setValues[i] = arg[n]
         n = n+1
     print(setValues)  # 確認用
-   
-    rm = pyvisa.ResourceManager()
-    # PCに接続された機器のVISAリソース名の取得
-    visa_list = rm.list_resources()
-
-    # 機器接続
-    stage = device.StageController(visa_list[int(setValues["3dgpib"])])  # 三軸の接続先指定
-    scope = device.Oscilloscope(visa_list[int(setValues["oscillogpib"])])  # オシロスコープの接続先指定
-
+    print(stop_value)
+    
+    #測定のループの中に入れる
+    #if stop==0:
+        #そのまま測定
+        
+    #else:
+        #測定終了
+    
+    #現在位置の出力(テスト)
+    eel.change_current_point(1,5)
+    
+# ストップ
+@eel.expose
+def stop():
+    stop_value=1
+    print(stop_value)

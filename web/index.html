@@ -29,13 +29,21 @@
 	<div class="collum">
 	<div id="3dgpib"><p>GBIB Address</p><input class="form-control" name="3dgpib" type="number" value="8" min="8" max="11">(8-11)</div>
 	<br>
-	<div id=setAxis><p>Set Axis</p><select name="setAxis">
-  <option value= 1 selected>x-y-z</option>
-  <option value= 2 >x-z-y</option>
-  <option value= 3 >y-x-z</option>
-  <option value= 4 >y-z-x</option>
-  <option value= 5 >z-x-y</option>
-  <option value= 6 >z-y-x</option>
+	<div id="setAxis"><p>Set Axis</p>
+	<select id="set1stAxis" name="set1stAxis" onchange="check_axis()">
+    <option value="1" selected>x</option>
+    <option value="2">y</option>
+    <option value="3">z</option>
+    </select>
+    <select id="set2ndAxis" name="set2ndAxis" onchange="check_axis()">
+    <option value="1">x</option>
+    <option value="2" selected>y</option>
+    <option value="3">z</option>
+    </select>
+    <select id="set3rdAxis" name="set3rdAxis" onchange="check_axis()">
+    <option value="1">x</option>
+    <option value="2">y</option>
+    <option value="3" selected>z</option>
 </select></div>
 	</div>
 	<div class="collum">
@@ -47,9 +55,9 @@
 	<button class="form-control btn btn-outline-secondary" id="stop">STOP</button>
 	</div>
 	<div class="axises">
-	<div class="axis border border-secondary rounded" id=1stAxis><div class="top_axis border border-secondary rounded">1stAxis</div><p>Pulse Number</p><input class="form-control" name="1stAxisPulse" type="number" min="0" max="16777214">(0-16777214)<br><br><p>Number of Measurement Point</p><div class="measureValue"><input class="form-control" name="1stAxisPoint" type="number" min="0"><input class="form-control" type="number" placeholder="current pos." readonly></div></div>
-	<div class="axis border border-secondary rounded" id="2ndAxis"><div class="top_axis border border-secondary rounded">2ndAxis</div><p>Pulse Number</p><input class="form-control col-xs-2" name="2ndAxisPulse" type="number" min="0" max="16777214">(0-16777214)<br><br><p>Number of Measurement Point</p><div class="measureValue"><input class="form-control" name="2ndAxisPoint" type="number" min="0"><input class="form-control" type="number" placeholder="current pos." readonly></div></div>
-	<div class="axis border border-secondary rounded" id="3rdAxis"><div class="top_axis border border-secondary rounded">3rdAxis</div><p>Pulse Number</p><input class="form-control col-xs-2" name="3rdAxisPulse" type="number" min="0" max="16777214">(0-16777214)<br><br><p>Number of Measurement Point</p><div class="measureValue"><input class="form-control" name="3rdAxisPoint" type="number" min="0"><input class="form-control" type="number" placeholder="current pos." readonly></div></div>
+	<div class="axis border border-secondary rounded" id=1stAxis><div class="top_axis border border-secondary rounded">1stAxis</div><p>Pulse Number</p><input class="form-control" name="1stAxisPulse" type="number" min="0" max="16777214">(0-16777214)<br><br><p>Number of Measurement Point</p><div class="measureValue"><input class="form-control" name="1stAxisPoint" type="number" min="0"><div class="form-control" id="1stAxisCPoint" type="number" placeholder="current pos." readonly></div></div></div>
+	<div class="axis border border-secondary rounded" id="2ndAxis"><div class="top_axis border border-secondary rounded">2ndAxis</div><p>Pulse Number</p><input class="form-control col-xs-2" name="2ndAxisPulse" type="number" min="0" max="16777214">(0-16777214)<br><br><p>Number of Measurement Point</p><div class="measureValue"><input class="form-control" name="2ndAxisPoint" type="number" min="0"><div class="form-control" id="2ndAxisCPoint" type="number" placeholder="current pos." readonly></div></div></div>
+	<div class="axis border border-secondary rounded" id="3rdAxis"><div class="top_axis border border-secondary rounded">3rdAxis</div><p>Pulse Number</p><input class="form-control col-xs-2" name="3rdAxisPulse" type="number" min="0" max="16777214">(0-16777214)<br><br><p>Number of Measurement Point</p><div class="measureValue"><input class="form-control" name="3rdAxisPoint" type="number" min="0"><div class="form-control" id="3rdAxisCPoint" type="number" placeholder="current pos." readonly></div></div></div>
 	</div>
 </div>
 <div class="osciloscope border border-secondary rounded">
