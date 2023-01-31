@@ -38,13 +38,13 @@ def send_data(arg=[]):
     print(stop_value)
     
 
-    rm = pyvisa.ResourceManager()
-    visa_list = rm.list_resources()
+    # rm = pyvisa.ResourceManager()
+    # visa_list = rm.list_resources()
 
-    stage = device.StageController(visa_list[int(setValues["3dgpib"])])#三軸の接続先設定
-    scope = device.Oscilloscope(visa_list[int(setValues["oscillogpib"])])#オシロスコープの接続先指定
+    # stage = device.StageController(visa_list[int(setValues["3dgpib"])])#三軸の接続先設定
+    # scope = device.Oscilloscope(visa_list[int(setValues["oscillogpib"])])#オシロスコープの接続先指定
 
-    order = [int(setValues["set1staxis"]),int(setValues["set2ndaxis"]),int(setValues["set3rdaxis"])]
+    order = [int(setValues["set1stAxis"]),int(setValues["set2ndAxis"]),int(setValues["set3rdAxis"])]
     data = np.zeros((int(setValues["1stAxisPoint"]) + 1,int(setValues["2ndAxisPoint"]) + 1,int(setValues["3rdAxisPoint"]) + 1))
 
     PulseNums = [int(setValues["1stAxisPulse"]),int(setValues["2ndAxisPulse"]),int(setValues["3rdAxisPulse"])]
