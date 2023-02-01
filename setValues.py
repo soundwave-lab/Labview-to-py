@@ -38,11 +38,11 @@ def send_data(arg=[]):
     print(stop_value)
     
 
-    # rm = pyvisa.ResourceManager()
-    # visa_list = rm.list_resources()
+    rm = pyvisa.ResourceManager()
+    visa_list = rm.list_resources()
 
-    # stage = device.StageController(visa_list[int(setValues["3dgpib"])])#三軸の接続先設定
-    # scope = device.Oscilloscope(visa_list[int(setValues["oscillogpib"])])#オシロスコープの接続先指定
+    stage = device.StageController(visa_list[int(setValues["3dgpib"])])#三軸の接続先設定
+    scope = device.Oscilloscope(visa_list[int(setValues["oscillogpib"])])#オシロスコープの接続先指定
 
     order = [int(setValues["set1stAxis"]),int(setValues["set2ndAxis"]),int(setValues["set3rdAxis"])]
     PulseNums = [int(setValues["1stAxisPulse"]),int(setValues["2ndAxisPulse"]),int(setValues["3rdAxisPulse"])]
@@ -52,32 +52,34 @@ def send_data(arg=[]):
     
     
     
-    data = np.zeros((int(setValues["1stAxisPoint"]) + 1,int(setValues["2ndAxisPoint"]) + 1,int(setValues["3rdAxisPoint"]) + 1))
+    data = np.zeros(((int(setValues["1stAxisPoint"]) + 1)*(int(setValues["2ndAxisPoint"]) + 1)*(int(setValues["3rdAxisPoint"]) + 1),7))
     print(data.shape)
    
 
     stage_range1 = np.array(range(0,int(setValues["1stAxisPulse"])*int(setValues["1stAxisPoint"]) + int(setValues["1stAxisPoint"]),int(setValues["1stAxisPulse"])))
     stage_range2 = np.array(range(0,int(setValues["2ndAxisPulse"])*int(setValues["2ndAxisPoint"]) + int(setValues["2ndAxisPoint"]),int(setValues["2ndAxisPulse"])))
     stage_range3 = np.array(range(0,int(setValues["3rdAxisPulse"])*int(setValues["3rdAxisPoint"]) + int(setValues["3rdAxisPoint"]),int(setValues["3rdAxisPulse"])))
-    # stage_range = np.array([stage_range1,stage_range2,stage_range3])
-
-    # print(stage_range[0])
+    
     
     ch = int(1)  # 仮置き
     sl = int(10) # 仮置き
 
     stage.move_to_abs(*first_move) # 1,2平面でゼロ点設定した地点から左下に移動
 
-    # for k in stage_range3:
-    #     for j in stage_range2:
-    #         for i in stage_range1:
-    #             data[i,j,k] = scope.measure(ch)
-    #             time.sleep(sl)
+    for k in stage_range3:
+        for j in stage_range2:
+            for i in stage_range1:
+                data[i/PulseNums[0] + j/PulseNums[1] + k/PulseNums[2],1] = i
+                data[i/PulseNums[0] + j/PulseNums[1] + k/PulseNums[2],2] = j
+                data[i/PulseNums[0] + j/PulseNums[1] + k/PulseNums[2],3] = k
+                data[i/PulseNums[0] + j/PulseNums[1] + k/PulseNums[2],4] = scope.measure(int(ch))
 
-    #             stage.one(order[0],PulseNums[0])
-    #     stage.one(order[1],PulseNums[1])
-    #     stage.one(order[0],-PulseNums[0])
-    # stage.one(order[2],PulseNums[2])
+                time.sleep(sl)
+
+                stage.one(order[0],PulseNums[0])
+        stage.one(order[1],PulseNums[1])
+        stage.one(order[0],-PulseNums[0]*int(setValues["1stAxisPoint"]))
+    stage.one(order[2],PulseNums[2])
 
 
     np.savetxt(filepath(),delimiter=',')
