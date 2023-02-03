@@ -34,6 +34,11 @@ class Oscilloscope:
 
         return time, Volts
 
+    def measure(self, number): # 渡された数字のチャンネルをソースとしたmeasure機能で測定した値を返す
+        self._scope.write(f'MEASUREMENT:IMMED:SORCE CH{number}')
+        value = float(self._scope.query('MEASUREMENT:IMMED:VALUE?'))
+        return value
+
     def average(self, count):  # averaging数指定
         return self._scope.write(f':ACQ:MOD AVE;:ACQ:NUMAV {count};')
 

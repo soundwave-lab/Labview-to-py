@@ -3,11 +3,10 @@ import tkinter
 import tkinter.filedialog as filedialog
 
 import pyvisa
-import device
-import time
+import Measure
 import numpy as np
 import pandas as pd
-import math
+
 
 # 辞書定義
 setValues = {"lowSpeed": "", "highSpeed": "", "3dgpib": "", "set1stAxis": "","set2ndAxis": "","set3rdAxis": "", "intervalTime": "", "1stAxisPulse": "", "2ndAxisPulse": "", "3rdAxisPulse": "",
@@ -23,6 +22,7 @@ def selectFile():
     root = tkinter.Tk()
     root.attributes("-topmost", True)
     root.withdraw()
+    global file_path
     file_path = tkinter.filedialog.asksaveasfilename(defaultextension="csv")
     return file_path
 
@@ -37,40 +37,27 @@ def send_data(arg=[]):
     print(setValues)  # 確認用
     print(stop_value)
     
-
+   
     rm = pyvisa.ResourceManager()
     visa_list = rm.list_resources()
+    
+    Measure(setValues,visa_list)
 
-    stage = device.StageController(visa_list[int(setValues["3dgpib"])])#三軸の接続先設定
-    scope = device.Oscilloscope(visa_list[int(setValues["oscillogpib"])])#オシロスコープの接続先指定
-
-    order = [int(setValues["set1staxis"]),int(setValues["set2ndaxis"]),int(setValues["set3rdaxis"])]
-    data = np.zeros((int(setValues["1stAxisPoint"]) + 1,int(setValues["2ndAxisPoint"]) + 1,int(setValues["3rdAxisPoint"]) + 1))
-
-    PulseNums = [int(setValues["1stAxisPulse"]),int(setValues["2ndAxisPulse"]),int(setValues["3rdAxisPulse"])]
-
-    stage_range1 = np.array(range(0,int(setValues["1stAxisPulse"])*int(setValues["1stAxisPoint"]) + int(setValues["1stAxisPoint"]),int(setValues["1stAxisPulse"])))
-    stage_range2 = np.array(range(0,int(setValues["2ndAxisPulse"])*int(setValues["2ndAxisPoint"]) + int(setValues["2ndAxisPoint"]),int(setValues["2ndAxisPulse"])))
-    stage_range3 = np.array(range(0,int(setValues["3rdAxisPulse"])*int(setValues["3rdAxisPoint"]) + int(setValues["3rdAxisPoint"]),int(setValues["3rdAxisPulse"])))
-    stage_range = np.concatenate(stage_range1,stage_range2,stage_range3,axis=0)
-
-    print(stage_range[0])
+    data = Measure.stage_move()
     
 
-    # stage.move_to_abs(-int("1stAxisPulse")*int("1stAxisPoint")/2,-int("2ndAxisPulse")*int("2ndAxisPoint")/2,0,0)
-
-    # for k in stage_range3:
-    #     for j in stage_range2:
-    #         for i in stage_range1:
-    #             data[
     #測定のループの中に入れる
     #if stop==0:
         #そのまま測定
         
     #else:
         #測定終了
+
+    print(file_path)
+    np.savetxt(file_path,data,delimiter=',')
     
     #現在位置の出力(テスト)
+    
     eel.change_current_point(1,5)
     
 # ストップ
