@@ -14,26 +14,26 @@ class Measure:
     def move_stage(self):
         stage = device.StageController(self.visa_list[int(self.setValues["3dgpib"])])  #　三軸の接続先設定
         scope = device.Oscilloscope(self.visa_list[int(self.setValues["oscillogpib"])])  #　オシロスコープの接続先指定
-        order = [int(self.setValue["set1stAxis"]),int(self.setValue["set2ndAxis"]),int(self.setValue["set3rdAxis"])]   # 動かす軸の順番：1軸(x軸), 2軸(y軸), 3軸(z軸)
-        PulseNums = [int(self.setValue["1stAxisPulse"]),int(self.setValue["2ndAxisPulse"]),int(self.setValue["3rdAxisPulse"])]  # 測定間隔：3軸の設定によって決まる。
+        order = [int(self.setValues["set1stAxis"]),int(self.setValues["set2ndAxis"]),int(self.setValues["set3rdAxis"])]   # 動かす軸の順番：1軸(x軸), 2軸(y軸), 3軸(z軸)
+        PulseNums = [int(self.setValues["1stAxisPulse"]),int(self.setValues["2ndAxisPulse"]),int(self.setValues["3rdAxisPulse"])]  # 測定間隔：3軸の設定によって決まる。
 
         first_move = np.zeros(4) # 原点移動用のベクトル列：セットゼロした地点に対し左下を原点とする。
-        first_move[order[0] - 1] = -int(self.setValue["1stAxisPulse"])*int(self.setValue["1stAxisPoint"])/2
-        first_move[order[1] - 1] = -int(self.setValue["2ndAxisPulse"])*int(self.setValue["2ndAxisPoint"])/2
+        first_move[order[0] - 1] = -int(self.setValues["1stAxisPulse"])*int(self.setValues["1stAxisPoint"])/2
+        first_move[order[1] - 1] = -int(self.setValues["2ndAxisPulse"])*int(self.setValues["2ndAxisPoint"])/2
 
 
 
-        data = np.zeros(((int(self.setValue["1stAxisPoint"]) + 1)*(int(self.setValue["2ndAxisPoint"]) + 1)*(int(self.setValue["3rdAxisPoint"]) + 1),7)) # データ格納用配列
+        data = np.zeros(((int(self.setValues["1stAxisPoint"]) + 1)*(int(self.setValues["2ndAxisPoint"]) + 1)*(int(self.setValues["3rdAxisPoint"]) + 1),7)) # データ格納用配列
         # print(data.shape)
 
 
-        stage_range1 = np.array(range(0,int(self.setValue["1stAxisPulse"])*int(self.setValue["1stAxisPoint"]) + int(self.setValue["1stAxisPoint"]),int(self.setValue["1stAxisPulse"])))
-        stage_range2 = np.array(range(0,int(self.setValue["2ndAxisPulse"])*int(self.setValue["2ndAxisPoint"]) + int(self.setValue["2ndAxisPoint"]),int(self.setValue["2ndAxisPulse"])))
-        stage_range3 = np.array(range(0,int(self.setValue["3rdAxisPulse"])*int(self.setValue["3rdAxisPoint"]) + int(self.setValue["3rdAxisPoint"]),int(self.setValue["3rdAxisPulse"])))
+        stage_range1 = np.array(range(0,int(self.setValues["1stAxisPulse"])*int(self.setValues["1stAxisPoint"]) + int(self.setValues["1stAxisPoint"]),int(self.setValues["1stAxisPulse"])))
+        stage_range2 = np.array(range(0,int(self.setValues["2ndAxisPulse"])*int(self.setValues["2ndAxisPoint"]) + int(self.setValues["2ndAxisPoint"]),int(self.setValues["2ndAxisPulse"])))
+        stage_range3 = np.array(range(0,int(self.setValues["3rdAxisPulse"])*int(self.setValues["3rdAxisPoint"]) + int(self.setValues["3rdAxisPoint"]),int(self.setValues["3rdAxisPulse"])))
 
 
         ch = int(1)  # 仮置き
-        sl = int(self.setValue["intervalTime"]) # 取得したスリーピング時間
+        sl = int(self.setValues["intervalTime"]) # 取得したスリーピング時間
 
         stage.move_to_abs(*first_move) # 1,2平面でゼロ点設定した地点から左下に移動
 
