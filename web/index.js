@@ -65,7 +65,11 @@ function setAxis(axes){
 
  
 //変数をJSからPythonへ
-document.getElementById('start').addEventListener('click',async()=>{
+var startButton=document.getElementById('start')
+startButton.addEventListener('click',async()=>{
+         startButton.setAttribute("disabled", true);　//ボタン非活性化
+         
+         //値を代入
          var axes=document.querySelector('[name="setAxis"]').value;
          setAxis(axes);
          input[0]=document.querySelector('[name="lowSpeed"]').value;
@@ -86,7 +90,15 @@ document.getElementById('start').addEventListener('click',async()=>{
          input[15]=document.querySelector('[name="measure3"]').value;
          input[16]=document.querySelector('[name="measure4"]').value;
          input[17]=document.querySelector('[name="oscilogpib"]').value;
-   await eel.send_data(input);
+         startButton.innerText="Running"
+         
+         var status= await eel.send_data(input)();  //send_data(input)の返り値を取得
+         
+         //send_dataの処理を待つ
+         if(status=="finish"){
+         startButton.removeAttribute("disabled"); //ボタン活性化
+         startButton.innerText="START";
+         }
 });
 
 //STOPを押したら実行（ストップ）
