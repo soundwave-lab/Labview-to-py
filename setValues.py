@@ -14,7 +14,7 @@ setValues = {"lowSpeed": "", "highSpeed": "", "3dgpib": "", "set1stAxis": "","se
 
 #stop_value=1の時ストップ
 global stop_Value
-stop_Value=0
+stop_Value = 0
 
 # 新規ファイルの保存場所指定
 @eel.expose
@@ -44,18 +44,16 @@ def send_data(arg=[]):
 
     Measure(setValues,visa_list)
 
-    data = Measure.move_stage()
+    data = Measure.measure_plane()
     
-
-    np.savetxt(filepath(),data,delimiter=',')
-
     
     np.savetxt(file_path,data,delimiter=',') # データ保存
     
     #現在位置の出力(テスト)
     
     eel.change_current_point(1,5)
-    
+
+    return "finish"  # UIに"finish"を返す。    
 # ストップ
 @eel.expose
 def stop():
