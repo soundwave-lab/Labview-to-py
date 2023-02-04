@@ -1,13 +1,15 @@
-# APPLy?
-# "SIN +5.0000000000000E+03,+3.0000000000000E+00,-2.5000000000000E+00"
 
 import pyvisa
 
 
 class FunctionGenerater:
-    def __init__(self):  # 接続先を指定
-        print('sdfa')
+    rm_ = pyvisa.ResourceManager()
 
-    @classmethod
-    def test(cls):
-        print('hello world')
+    def __init__(self,interface):  # 接続先を指定
+        self._func = self.rm_.open_resource(interface)
+        
+    def change_freq(self,freq): # 送波周波数変更
+        return self._func.write(f'SOUR1:FREQ: {freq}')
+
+
+    
