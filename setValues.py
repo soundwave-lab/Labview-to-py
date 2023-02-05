@@ -3,7 +3,7 @@ import tkinter
 import tkinter.filedialog as filedialog
 
 import pyvisa
-import Measure
+from measure import Measure
 import numpy as np
 import pandas as pd
 
@@ -42,9 +42,10 @@ def send_data(arg=[]):
     rm = pyvisa.ResourceManager()
     visa_list = rm.list_resources()  
 
-    Measure(setValues,visa_list)
-
-    data = Measure.measure_plane()
+    test = Measure(setValues,visa_list)
+    
+    
+    data = test.measure_plane()
     
     
     np.savetxt(file_path,data,delimiter=',') # データ保存
