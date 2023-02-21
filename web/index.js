@@ -68,13 +68,14 @@ function setAxis(axes){
 var startButton=document.getElementById('start')
 var stopButton=document.getElementById('stop')
 var start_count=0
+var stop_count=0
 startButton.addEventListener('click',async()=>{
          startButton.setAttribute("disabled", true);　//ボタン非活性化
          stopButton.removeAttribute("disabled"); 
          startButton.innerText="Running"
          stopButton.innerText="Suspend"
          
-    if(start_count==0){
+    if(start_count==0){ //最初のスタートだけ実行
          //値を代入
          var axes=document.querySelector('[name="setAxis"]').value;
          setAxis(axes);
@@ -103,24 +104,32 @@ startButton.addEventListener('click',async()=>{
          
          //send_dataの処理を待つ
          if(status=="finish"){
-         startButton.removeAttribute("disabled"); //ボタン活性化
-         stopButton.setAttribute("disabled", true); //ボタン非活性化
-         startButton.innerText="START";
-         stopButton.innerText="STOP";
-         start_count=0;
+             startButton.removeAttribute("disabled"); //ボタン活性化
+             stopButton.setAttribute("disabled", true); //ボタン非活性化
+             startButton.innerText="START";
+             stopButton.innerText="STOP";
+             start_count=0;
+             stop_count=0;
          }
          else if(status=="suspending"){
             startButton.removeAttribute("disabled"); //ボタン活性化
             startButton.innerText="Resume";
             stopButton.innerText="STOP";
+            stop_count=1;
          }
         
 });
 
-//STOPを押したら実行（ストップ）
+//STOPを押したら実行（一時停止 or ストップ）
 stopButton.addEventListener('click',async()=>{
-   await eel.stop()();
-});
+   if(stop_count==0){
+        await eel.suspend()();
+    }
+    else{
+        await eel.stop()();
+    }
+}
+);
 
 eel.expose(change_current_point)
 function change_current_point(axis,point){
