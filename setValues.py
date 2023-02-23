@@ -12,9 +12,9 @@ import pandas as pd
 setValues = {"lowSpeed": "", "highSpeed": "", "3dgpib": "", "set1stAxis": "","set2ndAxis": "","set3rdAxis": "", "intervalTime": "", "1stAxisPulse": "", "2ndAxisPulse": "", "3rdAxisPulse": "",
              "1stAxisPoint": "", "2ndAxisPoint": "", "3rdAxisPoint": "", "measure1": "", "measure2": "", "measure3": "", "measure4": "", "oscillogpib": ""}
 
-#stop_value=1の時ストップ
-global stop_Value
-stop_Value = 0
+#stop_value=1の時「一時停止」、2の時「終了」
+global stop_value
+stop_value = 0
 
 # 新規ファイルの保存場所指定
 @eel.expose
@@ -36,7 +36,7 @@ def send_data(arg=[]):
         setValues[i] = arg[n]
         n = n+1
     print(setValues)  # 確認用
-    print(stop_Value)
+    print(stop_value)
     
    
     rm = pyvisa.ResourceManager()
@@ -54,9 +54,16 @@ def send_data(arg=[]):
     
     eel.change_current_point(1,5)
 
-    return "finish"  # UIに"finish"を返す。    
+    return "finish"  # UIに"finish"を返す。  
+    
+# 一時停止
+@eel.expose
+def suspend():
+    stop_value=1
+    print(stop_value)
+    
 # ストップ
 @eel.expose
 def stop():
-    stop_value=1
+    stop_value=2
     print(stop_value)
