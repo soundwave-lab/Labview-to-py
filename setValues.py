@@ -2,10 +2,10 @@ import eel
 import tkinter
 import tkinter.filedialog as filedialog
 
-# import pyvisa
-# from measure import Measure
-# import numpy as np
-# import pandas as pd
+import pyvisa
+from measure import Measure
+import numpy as np
+import pandas as pd
 
 
 # 辞書定義
@@ -38,21 +38,21 @@ def send_data(arg=[]):
     global stop_value
     print(stop_value)
    
-    # rm = pyvisa.ResourceManager()
-    # visa_list = rm.list_resources()  
+    rm = pyvisa.ResourceManager()
+    visa_list = rm.list_resources()  
 
-    # test = Measure(setValues,visa_list)
+    test = Measure(setValues,visa_list)
     
     
-    # data = test.measure_plane()
+    data = test.measure_plane()
     
     
-    # np.savetxt(file_path,data,delimiter=',') # データ保存
+    np.savetxt(file_path,data,delimiter=',') # データ保存
     
     #現在位置の出力(テスト)
     eel.change_current_point(1,5)
 
-    if stop_value==1:
+    if stop_value==1:　　# Measure.pyに入れられるならそっちでも
         return "suspending"
     else:
         return "finish"  # UIに"finish"を返す。  
