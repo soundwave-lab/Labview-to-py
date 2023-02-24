@@ -13,8 +13,8 @@ setValues = {"lowSpeed": "", "highSpeed": "", "3dgpib": "", "set1stAxis": "","se
              "1stAxisPoint": "", "2ndAxisPoint": "", "3rdAxisPoint": "", "measure1": "", "measure2": "", "measure3": "", "measure4": "", "oscillogpib": ""}
 
 #stop_value=1の時ストップ
-global stop_Value
-stop_Value = 0
+global stop_value
+stop_value = 0
 
 # 新規ファイルの保存場所指定
 @eel.expose
@@ -36,7 +36,7 @@ def send_data(arg=[]):
         setValues[i] = arg[n]
         n = n+1
     print(setValues)  # 確認用
-    print(stop_Value)
+    print(stop_value)
     
    
     rm = pyvisa.ResourceManager()
@@ -44,15 +44,19 @@ def send_data(arg=[]):
 
     test = Measure(setValues,visa_list)
     
+    if stop_value == 1:
+        data = test.measure_plane()
+        return "suspending"
+
+    else: 
+        pass
     
     data = test.measure_plane()
     
     
     np.savetxt(file_path,data,delimiter=',') # データ保存
     
-    #現在位置の出力(テスト)
     
-    eel.change_current_point(1,5)
 
     return "finish"  # UIに"finish"を返す。    
 # ストップ

@@ -67,7 +67,7 @@ function setAxis(axes){
 //変数をJSからPythonへ
 var startButton=document.getElementById('start')
 startButton.addEventListener('click',async()=>{
-         startButton.setAttribute("disabled", true);　//ボタン非活性化
+         startButton.setAttribute("disabled", true); //ボタン非活性化
          
          //値を代入
          var axes=document.querySelector('[name="setAxis"]').value;
