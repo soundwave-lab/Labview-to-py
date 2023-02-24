@@ -14,6 +14,7 @@ setValues = {"lowSpeed": "", "highSpeed": "", "3dgpib": "", "set1stAxis": "","se
 
 #stop_value=1の時ストップ
 global stop_value
+#stop_value=1の時「一時停止」、2の時「終了」
 stop_value = 0
 
 # 新規ファイルの保存場所指定
@@ -38,6 +39,8 @@ def send_data(arg=[]):
     print(setValues)  # 確認用
     print(stop_value)
     
+    global stop_value
+    print(stop_value)
    
     rm = pyvisa.ResourceManager()
     visa_list = rm.list_resources()  
@@ -57,10 +60,31 @@ def send_data(arg=[]):
     np.savetxt(file_path,data,delimiter=',') # データ保存
     
     
+    #現在位置の出力(テスト)
+    eel.change_current_point(1,5)
 
-    return "finish"  # UIに"finish"を返す。    
+    if stop_value==1:  # Measure.pyに入れられるならそっちでも
+        return "suspending"
+    else:
+        return "finish"  # UIに"finish"を返す。  
+        
+# リセット
+@eel.expose
+def reset():
+    global stop_value #グローバル変数更新
+    stop_value=0
+    print(stop_value)
+    
+# 一時停止
+@eel.expose
+def suspend():
+    global stop_value #グローバル変数更新
+    stop_value=1
+    print(stop_value)
+    
 # ストップ
 @eel.expose
 def stop():
-    stop_value=1
+    global stop_value#グローバル変数更新
+    stop_value=2
     print(stop_value)

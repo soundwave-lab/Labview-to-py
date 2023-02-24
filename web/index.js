@@ -66,9 +66,40 @@ function setAxis(axes){
  
 //変数をJSからPythonへ
 var startButton=document.getElementById('start')
-startButton.addEventListener('click',async()=>{
-         startButton.setAttribute("disabled", true); //ボタン非活性化
+var stopButton=document.getElementById('stop')
+var start_count=0
+var stop_count=0
+
+async function process(){
+         var status= await eel.send_data(input)();  //send_data(input)の返り値を取得
          
+         //send_dataの処理を待つ
+         if(status=="finish"){
+             await eel.reset()();
+             startButton.removeAttribute("disabled"); //ボタン活性化
+             stopButton.setAttribute("disabled", true); //ボタン非活性化
+             startButton.innerText="START";
+             stopButton.innerText="STOP";
+             start_count=0;
+             stop_count=0;
+         }
+         else if(status=="suspending"){
+            startButton.removeAttribute("disabled"); //ボタン活性化
+            startButton.innerText="Resume";
+            stopButton.innerText="STOP";
+            start_count=1;
+            stop_count=1;
+         }
+        
+};
+
+startButton.addEventListener('click',()=>{
+         startButton.setAttribute("disabled", true);　//ボタン非活性化
+         stopButton.removeAttribute("disabled"); 
+         startButton.innerText="Running"
+         stopButton.innerText="Suspend"
+         
+        if(start_count==0){ //最初のスタートだけ実行
          //値を代入
          var axes=document.querySelector('[name="setAxis"]').value;
          setAxis(axes);
@@ -90,22 +121,27 @@ startButton.addEventListener('click',async()=>{
          input[15]=document.querySelector('[name="measure3"]').value;
          input[16]=document.querySelector('[name="measure4"]').value;
          input[17]=document.querySelector('[name="oscilogpib"]').value;
-         startButton.innerText="Running"
+        }
          
-         var status= await eel.send_data(input)();  //send_data(input)の返り値を取得
+         start_count=0;
+         stop_count=0;
+         process();
+        });
          
-         //send_dataの処理を待つ
-         if(status=="finish"){
-         startButton.removeAttribute("disabled"); //ボタン活性化
-         startButton.innerText="START";
-         }
+
+//STOPを押したら実行（一時停止 or ストップ）
+stopButton.addEventListener('click',async()=>{
+   if(stop_count==0){ //動作中から一時停止へ
+        await eel.suspend()();
+    }
+    else if(stop_count==1){ //一時停止中のSTOP押したときの処理
+        await eel.stop()();
+        process();
+    }
 });
 
-//STOPを押したら実行（ストップ）
-document.getElementById('stop').addEventListener('click',async()=>{
-   await eel.stop()();
-});
 
+//現在位置を返す
 eel.expose(change_current_point)
 function change_current_point(axis,point){
    if(axis==1){
