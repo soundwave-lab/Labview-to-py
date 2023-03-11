@@ -22,9 +22,9 @@
 <div class="3dstage">
 	<div class="speed border border-secondary rounded">
 	<div class="collum">
-	<div id=lowSpeed><p>Measure Move Speed(pps)</p><div class="tooltip3"><input class="form-control" name="lowSpeed" type="number" min="1" max="500000"><div class="collapse" id="collapse"><div class="description3">次の測定点までのヘッドの速さを入力してください。</div></div></div>(1-500000)</div>
+	<div id=lowSpeed><p>Measure Move Speed(pps)</p><div class="tooltip3"><input class="form-control" name="lowSpeed" type="number" value="3000" min="1" max="500000"><div class="collapse" id="collapse"><div class="description3">次の測定点までのヘッドの速さを入力してください。</div></div></div>(1-500000)</div>
 	<br>
-	<div id=highSpeed><p>Return Speed(pps)</p><div class="tooltip3"><input class="form-control" name="highSpeed" type="number" min="1" max="500000"><div class="collapse" id="collapse"><div class="description3">ヘッドが戻る速さを入力してください。</div></div></div>(1-500000)</div>
+	<div id=highSpeed><p>Return Speed(pps)</p><div class="tooltip3"><input class="form-control" name="highSpeed" type="number" value="10000" min="1" max="500000"><div class="collapse" id="collapse"><div class="description3">ヘッドが戻る速さを入力してください。</div></div></div>(1-500000)</div>
 	</div>
 	<div class="collum">
 	<div id="3dgpib"><p>GPIB Address</p><div class="tooltip3"><input class="form-control" name="3dgpib" type="number" value="2" min="2" max="8"><div class="collapse" id="collapse"><div class="description3">3DステージのGPIBアドレスを入力してください。</div></div></div>(2-8)</div>
@@ -40,7 +40,7 @@
 </select><div class="collapse" id="collapse"><div class="description3">測定軸の設定をします。</div></div></div></div>
 	</div>
 	<div class="collum">
-	<div id="intervalTime"><p>Interval Time(ms)</p><div class="tooltip3"><input class="form-control" name="intervalTime" type="number"><div class="collapse" id="collapse"><div class="description3">ヘッドが測定点にとどまる時間を入力してください。</div></div></div></div>
+	<div id="intervalTime"><p>Interval Time(ms)</p><div class="tooltip3"><input class="form-control" name="intervalTime" type="number" value="500"><div class="collapse" id="collapse"><div class="description3">ヘッドが測定点にとどまる時間を入力してください。</div></div></div></div>
 	</div>
 	<br><br>
 	<div class="buttons">
@@ -59,16 +59,16 @@ Detail Setting
 	</div>
 	<div class="axises">
 	<div class="axis border border-secondary rounded" id=1stAxis><div class="top_axis border border-secondary rounded">1stAxis</div><p>Pulse Number</p>
-	<div class="tooltip3"><input class="form-control" name="1stAxisPulse" type="number" min="0" max="16777214"><div class="collapse" id="collapse"><div class="description3">測定間隔を入力してください。</div></div></div>(0-16777214)<br><br>
-	<p>Number of Measurement Point</p><div class="measureValue"><div class="tooltip3"><input class="form-control" name="1stAxisPoint" type="number" min="0"><div class="collapse" id="collapse"><div class="description3">測定点数を入力してください。</div></div></div>
+	<div class="tooltip3"><input class="form-control" name="1stAxisPulse" type="number" value="5000" min="0" max="16777214"><div class="collapse" id="collapse"><div class="description3">測定間隔を入力してください。</div></div></div>(0-16777214)<br><br>
+	<p>Number of Measurement Point</p><div class="measureValue"><div class="tooltip3"><input class="form-control" name="1stAxisPoint" type="number" value="5" min="0"><div class="collapse" id="collapse"><div class="description3">測定点数を入力してください。</div></div></div>
 	<div class="form-control" id="1stAxisCPoint" type="number" readonly>current pos.</div></div></div>
 	<div class="axis border border-secondary rounded" id="2ndAxis"><div class="top_axis border border-secondary rounded">2ndAxis</div><p>Pulse Number</p>
-	<div class="tooltip3"><input class="form-control col-xs-2" name="2ndAxisPulse" type="number" min="0" max="16777214"><div class="collapse" id="collapse"><div class="description3">測定間隔を入力してください。</div></div></div>(0-16777214)<br><br>
-	<p>Number of Measurement Point</p><div class="measureValue"><div class="tooltip3"><input class="form-control" name="2ndAxisPoint" type="number" min="0"><div class="collapse" id="collapse"><div class="description3">測定点数を入力してください。</div></div></div>
+	<div class="tooltip3"><input class="form-control col-xs-2" name="2ndAxisPulse" type="number" value="5000" min="0" max="16777214"><div class="collapse" id="collapse"><div class="description3">測定間隔を入力してください。</div></div></div>(0-16777214)<br><br>
+	<p>Number of Measurement Point</p><div class="measureValue"><div class="tooltip3"><input class="form-control" name="2ndAxisPoint" type="number" value="5" min="0"><div class="collapse" id="collapse"><div class="description3">測定点数を入力してください。</div></div></div>
 	<div class="form-control" id="2ndAxisCPoint" type="number" readonly>current pos.</div></div></div>
 	<div class="axis border border-secondary rounded" id="3rdAxis"><div class="top_axis border border-secondary rounded">3rdAxis</div><p>Pulse Number</p>
-	<div class="tooltip3"><input class="form-control col-xs-2" name="3rdAxisPulse" type="number" min="0" max="16777214"><div class="collapse" id="collapse"><div class="description3">測定間隔を入力してください。</div></div></div>(0-16777214)<br><br>
-	<p>Number of Measurement Point</p><div class="measureValue"><div class="tooltip3"><input class="form-control" name="3rdAxisPoint" type="number" min="0"><div class="collapse" id="collapse"><div class="description3">測定点数を入力してください。</div></div></div>
+	<div class="tooltip3"><input class="form-control col-xs-2" name="3rdAxisPulse" type="number" value="5000" min="0" max="16777214"><div class="collapse" id="collapse"><div class="description3">測定間隔を入力してください。</div></div></div>(0-16777214)<br><br>
+	<p>Number of Measurement Point</p><div class="measureValue"><div class="tooltip3"><input class="form-control" name="3rdAxisPoint" type="number" value="5" min="0"><div class="collapse" id="collapse"><div class="description3">測定点数を入力してください。</div></div></div>
 	<div class="form-control" id="3rdAxisCPoint" type="number" readonly>current pos.</div></div></div>
 	</div>
 </div>

@@ -38,12 +38,13 @@ def send_data(arg=[]):
     print(setValues)  # 確認用
     print(stop_value)
     
-    global stop_value
+    
     print(stop_value)
    
     rm = pyvisa.ResourceManager()
     visa_list = rm.list_resources()  
-
+    print(visa_list)
+    
     a = Measure(setValues,visa_list) # インスタンス化
     
     if stop_value == 1:
@@ -98,10 +99,10 @@ class Measure:
         # print(len(visa_list))
         self.setValues = setValues   # UIからの設定値を渡す
         self.visa_list = visa_list   # UIからのデータを渡す
-        self.stage = device.StageController(self.visa_list[int(self.setValues["3dgpib"]) - 6])  #　三軸の接続先設定
+        self.stage = device.StageController(self.visa_list[int(self.setValues["3dgpib"])])  #　三軸の接続先設定
         self.scope = device.Oscilloscope(self.visa_list[int(self.setValues["oscillogpib"] )])  #　オシロスコープの接続先指定
 
-        self.data = np.zeros(((int(self.setValues["1stAxisPoint"]))*(int(self.setValues["2ndAxisPoint"]))*(int(self.setValues["3rdAxisPoint"])),7)) # データ格納用配列
+        self.data = np.zeros((int(self.setValues["1stAxisPoint"])*int(self.setValues["2ndAxisPoint"])*int(self.setValues["3rdAxisPoint"]),7)) # データ格納用配列
         self.order = [int(self.setValues["set1stAxis"]),int(self.setValues["set2ndAxis"]),int(self.setValues["set3rdAxis"])]   # 動かす軸の順番：1軸(x軸), 2軸(y軸), 3軸(z軸)
         self.PulseNums = [int(self.setValues["1stAxisPulse"]),int(self.setValues["2ndAxisPulse"]),int(self.setValues["3rdAxisPulse"])]  # 測定間隔：3軸の設定によって決まる。
         self.stage_range1 = np.array(range(0,int(self.setValues["1stAxisPulse"])*int(self.setValues["1stAxisPoint"]),int(self.setValues["1stAxisPulse"])))
@@ -114,6 +115,8 @@ class Measure:
         self.first_move[self.order[1] - 1] = -int(int(self.setValues["2ndAxisPulse"])*int(self.setValues["2ndAxisPoint"])/2)
 
         self.sleep = int(self.setValues["intervalTime"])/1000 # 取得したスリーピング時間(ms)
+        print(type(self.speed))
+        print(type(self.first_move))
         
         
         
@@ -258,8 +261,9 @@ class Measure:
         
 
 
-    def initial_move(self,init_array):
-        self.stage.change_speed(self.speed[1],self.speed[1],0) # change_apeed(min,max,acceleration time = 0) 加速時間を設けずに移動
+    def initial_move(self,*init_array):
+        print(type(self.speed))
+        self.stage.change_speed(self.speed[1],self.speed[1],0) # change_speed(min,max,acceleration time = 0) 加速時間を設けずに移動
         self.stage.move_to_abs(*init_array) # 1,2平面でゼロ点設定した地点から左下に移動
 
     
