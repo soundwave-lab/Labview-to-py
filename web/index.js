@@ -71,8 +71,8 @@ var start_count=0
 var stop_count=0
 
 async function process(){
-         var status= await eel.send_data(input)();  //send_data(input)の返り値を取得
-         
+         await eel.send_data(input)();
+         var status=await eel.check()(); 
          //send_dataの処理を待つ
          if(status=="finish"){
              await eel.reset()();
@@ -139,7 +139,6 @@ stopButton.addEventListener('click',async()=>{
         process();
     }
 });
-
 
 //現在位置を返す
 eel.expose(change_current_point)

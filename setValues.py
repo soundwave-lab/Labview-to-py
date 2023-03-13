@@ -1,11 +1,14 @@
 import eel
 import tkinter
 import tkinter.filedialog as filedialog
+import threading
 
-import pyvisa
-from measure import Measure
-import numpy as np
-import pandas as pd
+import time #テスト用（消していいよ）
+
+# import pyvisa
+# from measure import Measure
+# import numpy as np
+# import pandas as pd
 
 
 # 辞書定義
@@ -38,53 +41,67 @@ def send_data(arg=[]):
         n = n+1
     print(setValues)  # 確認用
     print(stop_value)
+    thread = threading.Thread(target=get_measure_data()) #マルチスレッド
+    thread.start()
     
+def get_measure_data(): #マルチスレッド関数（ほかの関数同時に動かせるよ）
     global stop_value
-    print(stop_value)
+    print("thread start")
+    
+    time.sleep(3) #テスト用（消していいよ）
    
-    rm = pyvisa.ResourceManager()
-    visa_list = rm.list_resources()  
+    # rm = pyvisa.ResourceManager()
+    # visa_list = rm.list_resources()  
 
-    test = Measure(setValues,visa_list)
+    # test = Measure(setValues,visa_list)
     
-    if stop_value == 1:
-        data = test.measure_plane()
-        return "suspending"
+    # if stop_value == 1:
+    #     data = test.measure_plane()
+    #     return "suspending"
 
-    else: 
-        pass
+    # else: 
+    #     pass
     
-    data = test.measure_plane()
-    
-    
-    np.savetxt(file_path,data,delimiter=',') # データ保存
+    # data = test.measure_plane()
     
     
-    #現在位置の出力(テスト)
-    eel.change_current_point(1,5)
-
+    # np.savetxt(file_path,data,delimiter=',') # データ保存
+    
+    
+    # #現在位置の出力(テスト)
+    # eel.change_current_point(1,5)
+    print("stop_value = "+str(stop_value))
+    print("finish")
+    
+        
+@eel.expose
+def check():
+    global stop_value
     if stop_value==1:  # Measure.pyに入れられるならそっちでも
         return "suspending"
     else:
-        return "finish"  # UIに"finish"を返す。  
+        return "finish"  # UIに"finish"を返す。
         
 # リセット
 @eel.expose
 def reset():
     global stop_value #グローバル変数更新
     stop_value=0
-    print(stop_value)
+    print("stop_value = "+str(stop_value))
+    print("reset")
     
 # 一時停止
 @eel.expose
 def suspend():
     global stop_value #グローバル変数更新
     stop_value=1
-    print(stop_value)
+    print("stop_value = "+str(stop_value))
+    print("suspendind")
     
 # ストップ
 @eel.expose
 def stop():
     global stop_value#グローバル変数更新
     stop_value=2
-    print(stop_value)
+    print("stop_value = "+str(stop_value))
+    print("stop")
