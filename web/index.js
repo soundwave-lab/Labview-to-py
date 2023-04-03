@@ -71,13 +71,13 @@ var start_count=0
 var stop_count=0
 
 async function process(){
-         await eel.send_data(input)();
+         eel.send_data(input)();
          var status=await eel.check()(); 
          //send_dataの処理を待つ
          if(status=="finish"){
              await eel.reset()();
              startButton.removeAttribute("disabled"); //ボタン活性化
-             stopButton.setAttribute("disabled", true); //ボタン非活性化
+            //  stopButton.setAttribute("disabled", true); //ボタン非活性化
              startButton.innerText="START";
              stopButton.innerText="STOP";
              start_count=0;

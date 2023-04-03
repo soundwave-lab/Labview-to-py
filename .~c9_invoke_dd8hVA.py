@@ -20,9 +20,6 @@ global stop_value
 #stop_value=1の時「一時停止」、2の時「終了」
 stop_value = 0
 
-global flag
-flag=0
-
 # 新規ファイルの保存場所指定
 @eel.expose
 def selectFile():
@@ -44,21 +41,15 @@ def send_data(arg=[]):
         n = n+1
     print(setValues)  # 確認用
     print(stop_value)
-    thread = threading.Thread(target=get_measure_data) #マルチスレッド
+    thread = threading.Thread(target=get_measure_data()) #マルチスレッド
     thread.start()
     
 def get_measure_data(): #マルチスレッド関数（ほかの関数同時に動かせるよ）
-    global flag
+    global stop_value
     print("thread start")
     
     time.sleep(3) #テスト用（消していいよ）
-    
-    m=0
-    global stop_value
-    while stop_value==0:
-        print(m)
-        time.sleep(1)
-        m=m+1
+   
     # rm = pyvisa.ResourceManager()
     # visa_list = rm.list_resources()  
 
@@ -81,22 +72,15 @@ def get_measure_data(): #マルチスレッド関数（ほかの関数同時に�
     # eel.change_current_point(1,5)
     print("stop_value = "+str(stop_value))
     print("finish")
-
     
         
 @eel.expose
 def check():
-    # while 1:
     global stop_value
-    global flag
-        # if flag==1:
     if stop_value==1:  # Measure.pyに入れられるならそっちでも
         return "suspending"
-            # flag=0
     else:
         return "finish"  # UIに"finish"を返す。
-            # flag=0
-
         
 # リセット
 @eel.expose
@@ -117,7 +101,7 @@ def suspend():
 # ストップ
 @eel.expose
 def stop():
-    global stop_value #グローバル変数更新
+    global stop_value#グローバル変数更新
     stop_value=2
     print("stop_value = "+str(stop_value))
     print("stop")
