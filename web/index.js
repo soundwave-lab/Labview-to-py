@@ -83,6 +83,7 @@ async function process(){
             start_count=0;
          }
          else if(status=="finish"){
+            await eel.stop_check_threading()(); //スレッドが終了しているかチェック
             startButton.removeAttribute("disabled"); //ボタン活性化
             stopButton.setAttribute("disabled", true); //ボタン非活性化
             startButton.innerText="START";
@@ -93,6 +94,7 @@ async function process(){
          else if(status=="suspending"){
             await eel.stop_check_threading()(); //スレッドが終了しているかチェック
             startButton.removeAttribute("disabled"); //ボタン活性化
+            stopButton.removeAttribute("disabled");
             startButton.innerText="Resume";
             stopButton.innerText="STOP";
             start_count=1;
@@ -142,10 +144,12 @@ startButton.addEventListener('click',()=>{
 //STOPを押したら実行（一時停止 or ストップ）
 stopButton.addEventListener('click',async()=>{
    if(start_count==0){ //動作中から一時停止へ
+        stopButton.setAttribute("disabled", true);
         await eel.suspend()();
         process();
     }
    else if(start_count==1){ //一時停止中のSTOP押したときの処理
+        stopButton.setAttribute("disabled", true);
         await eel.stop()();
         start_count=0
         process();
