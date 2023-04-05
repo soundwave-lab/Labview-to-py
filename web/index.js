@@ -156,6 +156,11 @@ stopButton.addEventListener('click',async()=>{
     }
 });
 
+eel.expose(finish)
+function finish(){ //eelの中でeel動かない
+        process();
+}
+
 //現在位置を返す
 eel.expose(change_current_point)
 function change_current_point(axis,point){

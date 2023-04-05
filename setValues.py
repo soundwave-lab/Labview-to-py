@@ -75,13 +75,17 @@ def get_measure_data(): #マルチスレッド関数（ほかの関数同時に�
         print("stop_value = "+str(stop_value))
         print("finish")
         reset()
-        m=0 #テスト用
+        m=0 #テスト用 #初期値
         return
     
     while stop_value==0: #このループが主動作（北嶋君あとは頼んだ・・・（吐血・・・！））
         print(m)
         time.sleep(1)
         m=m+1
+        
+        if m>10:
+            stop_value=2 #設定範囲を測定後はstop_valueを2へ
+            eel.finish()
     # rm = pyvisa.ResourceManager()
     # visa_list = rm.list_resources()  
 
@@ -106,17 +110,13 @@ def get_measure_data(): #マルチスレッド関数（ほかの関数同時に�
         
 @eel.expose
 def check():
-    # while 1:
     global stop_value
-        # if flag==1:
     if stop_value==1:  # Measure.pyに入れられるならそっちでも
         return "suspending"
-            # flag=0
     elif stop_value==2:
         return "finish"
     else:
         return "go"  # UIに"finish"を返す。
-            # flag=0
 
         
 # リセット
