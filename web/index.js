@@ -71,7 +71,7 @@ var start_count=0
 var stop_count=0
 
 async function process(){
-         eel.send_data(input)();
+         eel.start_threading()
          var status=await eel.check()(); 
          //send_dataの処理を待つ
          if(status=="go"){
@@ -80,8 +80,7 @@ async function process(){
             //  stopButton.setAttribute("disabled", true); //ボタン非活性化
             //  startButton.innerText="START";
             //  stopButton.innerText="STOP";
-             start_count=0;
-             stop_count=0;
+            start_count=0;
          }
          else if(status=="finish"){
             startButton.removeAttribute("disabled"); //ボタン活性化
@@ -89,15 +88,14 @@ async function process(){
             startButton.innerText="START";
             stopButton.innerText="STOP";
             start_count=0;
-            stop_count=0;
          }
          
          else if(status=="suspending"){
+            await eel.stop_check_threading()(); //スレッドが終了しているかチェック
             startButton.removeAttribute("disabled"); //ボタン活性化
             startButton.innerText="Resume";
             stopButton.innerText="STOP";
             start_count=1;
-            stop_count=1;
          }
         
 };
@@ -130,9 +128,10 @@ startButton.addEventListener('click',()=>{
          input[15]=document.querySelector('[name="measure3"]').value;
          input[16]=document.querySelector('[name="measure4"]').value;
          input[17]=document.querySelector('[name="oscilogpib"]').value;
+         eel.send_data(input)();
         }
         
-        if(start_count==1){
+        if(start_count==1){ //一時停止の時だけ実行
             eel.reset()();
         }
         
@@ -142,11 +141,11 @@ startButton.addEventListener('click',()=>{
 
 //STOPを押したら実行（一時停止 or ストップ）
 stopButton.addEventListener('click',async()=>{
-   if(stop_count==0){ //動作中から一時停止へ
+   if(start_count==0){ //動作中から一時停止へ
         await eel.suspend()();
         process();
     }
-    else if(stop_count==1){ //一時停止中のSTOP押したときの処理
+   else if(start_count==1){ //一時停止中のSTOP押したときの処理
         await eel.stop()();
         start_count=0
         process();
