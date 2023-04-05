@@ -74,15 +74,24 @@ async function process(){
          eel.send_data(input)();
          var status=await eel.check()(); 
          //send_dataの処理を待つ
-         if(status=="finish"){
-             await eel.reset()();
-             startButton.removeAttribute("disabled"); //ボタン活性化
+         if(status=="go"){
+            //  await eel.reset()();
+            //  startButton.removeAttribute("disabled"); //ボタン活性化
             //  stopButton.setAttribute("disabled", true); //ボタン非活性化
-             startButton.innerText="START";
-             stopButton.innerText="STOP";
+            //  startButton.innerText="START";
+            //  stopButton.innerText="STOP";
              start_count=0;
              stop_count=0;
          }
+         else if(status=="finish"){
+            startButton.removeAttribute("disabled"); //ボタン活性化
+            stopButton.setAttribute("disabled", true); //ボタン非活性化
+            startButton.innerText="START";
+            stopButton.innerText="STOP";
+            start_count=0;
+            stop_count=0;
+         }
+         
          else if(status=="suspending"){
             startButton.removeAttribute("disabled"); //ボタン活性化
             startButton.innerText="Resume";
@@ -122,9 +131,11 @@ startButton.addEventListener('click',()=>{
          input[16]=document.querySelector('[name="measure4"]').value;
          input[17]=document.querySelector('[name="oscilogpib"]').value;
         }
-         
-         start_count=0;
-         stop_count=0;
+        
+        // if(start_count==1){
+        //     eel.reset()();
+        // }
+        
          process();
         });
          
@@ -133,6 +144,7 @@ startButton.addEventListener('click',()=>{
 stopButton.addEventListener('click',async()=>{
    if(stop_count==0){ //動作中から一時停止へ
         await eel.suspend()();
+        process();
     }
     else if(stop_count==1){ //一時停止中のSTOP押したときの処理
         await eel.stop()();

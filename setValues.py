@@ -20,8 +20,8 @@ global stop_value
 #stop_value=1の時「一時停止」、2の時「終了」
 stop_value = 0
 
-global flag
-flag=0
+global m #テスト用
+m=0
 
 # 新規ファイルの保存場所指定
 @eel.expose
@@ -38,24 +38,27 @@ def selectFile():
 # HTMLのフォームの値をPythonの変数へ
 @eel.expose
 def send_data(arg=[]):
-    n = 0
-    for i in setValues.keys():
-        setValues[i] = arg[n]
-        n = n+1
-    print(setValues)  # 確認用
-    print(stop_value)
+    global stop_value
+    if stop_value==0:
+        n = 0
+        for i in setValues.keys():
+            setValues[i] = arg[n]
+            n = n+1
+        print(setValues)  # 確認用
     thread = threading.Thread(target=get_measure_data) #マルチスレッド
     thread.start()
     
+    
 def get_measure_data(): #マルチスレッド関数（ほかの関数同時に動かせるよ）
-    global flag
     print("thread start")
     
     time.sleep(3) #テスト用（消していいよ）
     
-    m=0
     global stop_value
-    while stop_value==0:
+    
+    global m
+    
+    while stop_value==0: #このループが主動作
         print(m)
         time.sleep(1)
         m=m+1
@@ -79,22 +82,30 @@ def get_measure_data(): #マルチスレッド関数（ほかの関数同時に�
     
     # #現在位置の出力(テスト)
     # eel.change_current_point(1,5)
-    print("stop_value = "+str(stop_value))
-    print("finish")
-
-    
+    if stop_value==1:
+        print("stop_value = "+str(stop_value))
+        print("suspending")
+        return
+        
+    if stop_value==2:
+        print("stop_value = "+str(stop_value))
+        print("finish")
+        reset()
+        m=0 #テスト用
+        return
         
 @eel.expose
 def check():
     # while 1:
     global stop_value
-    global flag
         # if flag==1:
     if stop_value==1:  # Measure.pyに入れられるならそっちでも
         return "suspending"
             # flag=0
+    elif stop_value==2:
+        return "finish"
     else:
-        return "finish"  # UIに"finish"を返す。
+        return "go"  # UIに"finish"を返す。
             # flag=0
 
         
