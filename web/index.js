@@ -132,9 +132,9 @@ startButton.addEventListener('click',()=>{
          input[17]=document.querySelector('[name="oscilogpib"]').value;
         }
         
-        // if(start_count==1){
-        //     eel.reset()();
-        // }
+        if(start_count==1){
+            eel.reset()();
+        }
         
          process();
         });
@@ -148,6 +148,7 @@ stopButton.addEventListener('click',async()=>{
     }
     else if(stop_count==1){ //一時停止中のSTOP押したときの処理
         await eel.stop()();
+        start_count=0
         process();
     }
 });
