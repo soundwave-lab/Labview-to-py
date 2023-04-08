@@ -103,7 +103,7 @@ async function process(){
 };
 
 startButton.addEventListener('click',()=>{
-         startButton.setAttribute("disabled", true);　//ボタン非活性化
+         startButton.setAttribute("disabled", true);//ボタン非活性化
          stopButton.removeAttribute("disabled"); 
          startButton.innerText="Running"
          stopButton.innerText="Suspend"
